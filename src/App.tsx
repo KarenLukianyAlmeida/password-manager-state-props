@@ -1,10 +1,12 @@
 import './App.css';
 import { Title } from './components/title';
+import Form from './components/Form';
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Title />
+      <Form />
     </div>
   );
 }
