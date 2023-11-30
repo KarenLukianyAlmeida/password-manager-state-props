@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { Register, ChangeEvent } from '../type';
-import { registerValidation } from '../utils/formValidation';
+import { registerValidation,
+  hasLetters,
+  hasNumbers,
+  hasSpecials,
+} from '../utils/formValidation';
 
 function Form() {
   const [newRegister, setNewRegister] = useState(false);
@@ -31,6 +35,8 @@ function Form() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRegister({ ...register, [event.target.name]: event.target.value });
   };
+
+  const switchClass = 'valid-password-check' || 'invalid-password-check';
 
   const isDisabled = (!registerValidation(register));
 
@@ -69,7 +75,12 @@ function Form() {
             />
           </div>
           <div>
-            <label htmlFor="senha">Senha</label>
+            <label
+              htmlFor="senha"
+            >
+              Senha
+
+            </label>
             <input
               type="password"
               name="senha"
@@ -77,6 +88,38 @@ function Form() {
               onChange={ handleChange }
               id="senha"
             />
+          </div>
+          <div>
+            <p
+              className={ senha.length >= 8
+                ? 'valid-password-check'
+                : 'invalid-password-check' }
+            >
+              Possuir 8 ou mais caracteres
+
+            </p>
+            <p
+              className={ senha.length <= 16
+                ? 'valid-password-check'
+                : 'invalid-password-check' }
+            >
+              Possuir até 16 caracteres
+
+            </p>
+            <p
+              className={ hasLetters.test(senha) && hasNumbers.test(senha)
+                ? 'valid-password-check'
+                : 'invalid-password-check' }
+            >
+              Possuir letras e números
+            </p>
+            <p
+              className={ hasSpecials.test(senha)
+                ? 'valid-password-check'
+                : 'invalid-password-check' }
+            >
+              Possuir algum caractere especial
+            </p>
           </div>
           <div>
             <label htmlFor="url">URL</label>

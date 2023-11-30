@@ -2,9 +2,9 @@ import { Register } from '../type';
 
 const minLength = 8;
 const maxLength = 16;
-const hasLetters = /[a-zA-Z]/;
-const hasNumbers = /[0-9]/;
-const hasSpecials = /[\W]/;
+export const hasLetters = /[a-zA-Z]/;
+export const hasNumbers = /[0-9]/;
+export const hasSpecials = /[\W]/;
 
 export const registerValidation = (register: Register) => {
   const { service, login, senha } = register;
