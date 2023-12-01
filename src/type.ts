@@ -3,4 +3,5 @@ export type Register = {
   login: string;
   senha: string;
   url: string;
+  hidePasswords: boolean;
 };

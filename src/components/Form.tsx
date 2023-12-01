@@ -9,11 +9,12 @@ function Form() {
     login: '',
     senha: '',
     url: '',
+    hidePasswords: false,
   };
   const [data, setData] = useState<Register[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [register, setRegister] = useState(initialRegister);
-  const { service, login, senha, url } = register;
+  const { service, login, senha, url, hidePasswords } = register;
 
   const toogleForm = () => {
     setShowForm(!showForm);
@@ -23,14 +24,22 @@ function Form() {
   const invalid = 'invalid-password-check';
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegister({ ...register, [event.target.name]: event.target.value });
+    if (event.target.type === 'checkbox') {
+      setRegister({ ...register, hidePasswords: !hidePasswords });
+    } else {
+      setRegister({ ...register, [event.target.name]: event.target.value });
+    }
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setData([...data, register]);
     toogleForm();
-    setRegister(initialRegister);
+    if (hidePasswords) {
+      setRegister({ ...initialRegister, hidePasswords });
+    } else {
+      setRegister(initialRegister);
+    }
   };
 
   const handleRemoveData = (urlToRemove: string) => {
@@ -124,6 +133,16 @@ function Form() {
                 id="url"
               />
             </div>
+            <div>
+              <input
+                type="checkbox"
+                name="hide-passwords"
+                id="hide-passwords"
+                checked={ hidePasswords }
+                onChange={ handleChange }
+              />
+              <label htmlFor="hide-passwords">Esconder senhas</label>
+            </div>
             <button
               type="submit"
               disabled={ isDisabled }
@@ -154,10 +173,9 @@ function Form() {
                 Login:
                 {item.login}
               </p>
-              <p>
-                Senha:
-                {item.senha}
-              </p>
+              {
+                hidePasswords ? <p>*******</p> : <p>{item.senha}</p>
+              }
               <button
                 data-testid="remove-btn"
                 onClick={ () => handleRemoveData(item.url) }
