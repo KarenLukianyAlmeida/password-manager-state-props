@@ -4,5 +4,3 @@ export type Register = {
   senha: string;
   url: string;
 };
-
-export type ChangeEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
