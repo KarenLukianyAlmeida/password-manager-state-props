@@ -15,20 +15,14 @@ function Form() {
   const [register, setRegister] = useState(initialRegister);
   const { service, login, senha, url } = register;
 
-  function toogleForm() {
+  const toogleForm = () => {
     setShowForm(!showForm);
-  }
+  };
 
-  // função de cadastrar
-  // ciar um novo estado que gurada um array de objetos com os meus registros
-  // add um novo registro no array (fazer spread dentro do meu set)
-  // resetar o register ok
-  // desaparecer o formulário/ função toogle ok
   const valid = 'valid-password-check';
   const invalid = 'invalid-password-check';
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // registerValidation(register);
     setRegister({ ...register, [event.target.name]: event.target.value });
   };
 
@@ -36,6 +30,12 @@ function Form() {
     event.preventDefault();
     setData([...data, register]);
     toogleForm();
+    setRegister(initialRegister);
+  };
+
+  const handleRemoveData = (urlToRemove: string) => {
+    const updateData = data.filter((item) => item.url !== urlToRemove);
+    setData(updateData);
   };
 
   const isDisabled = (!registerValidation(register));
@@ -144,11 +144,27 @@ function Form() {
         ) : (
           data.map((item) => (
             <div key={ item.url }>
-              <a href={ item.url } target="_blank" rel="noopener noreferrer">
-                {item.service}
-              </a>
-              <p>{item.login}</p>
-              <p>{item.senha}</p>
+              <p>
+                Link de acesso:
+                <a href={ item.url } target="_blank" rel="noopener noreferrer">
+                  {item.service}
+                </a>
+              </p>
+              <p>
+                Login:
+                {item.login}
+              </p>
+              <p>
+                Senha:
+                {item.senha}
+              </p>
+              <button
+                data-testid="remove-btn"
+                onClick={ () => handleRemoveData(item.url) }
+              >
+                Remover
+              </button>
+              <hr />
             </div>
           ))
         )}
