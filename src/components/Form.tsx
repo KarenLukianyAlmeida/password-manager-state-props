@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { Register, ChangeEvent } from '../type';
-import { registerValidation,
-  hasLetters,
-  hasNumbers,
-  hasSpecials,
-} from '../utils/formValidation';
+import { registerValidation } from '../utils/formValidation';
+import { PasswordValidation } from '../utils/passwordValidation';
 
 function Form() {
   const [newRegister, setNewRegister] = useState(false);
@@ -22,6 +19,9 @@ function Form() {
     setShowButton(true);
   }
 
+  const valid = 'valid-password-check';
+  const invalid = 'invalid-password-check';
+
   const initialRegister: Register = {
     service: '',
     login: '',
@@ -35,8 +35,6 @@ function Form() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRegister({ ...register, [event.target.name]: event.target.value });
   };
-
-  const switchClass = 'valid-password-check' || 'invalid-password-check';
 
   const isDisabled = (!registerValidation(register));
 
@@ -91,32 +89,32 @@ function Form() {
           </div>
           <div>
             <p
-              className={ senha.length >= 8
-                ? 'valid-password-check'
-                : 'invalid-password-check' }
+              className={ PasswordValidation.minLength(senha)
+                ? valid
+                : invalid }
             >
               Possuir 8 ou mais caracteres
 
             </p>
             <p
-              className={ senha.length <= 16
-                ? 'valid-password-check'
-                : 'invalid-password-check' }
+              className={ PasswordValidation.maxLength(senha)
+                ? valid
+                : invalid }
             >
               Possuir até 16 caracteres
 
             </p>
             <p
-              className={ hasLetters.test(senha) && hasNumbers.test(senha)
-                ? 'valid-password-check'
-                : 'invalid-password-check' }
+              className={ PasswordValidation.isAlphanumeric(senha)
+                ? valid
+                : invalid }
             >
               Possuir letras e números
             </p>
             <p
-              className={ hasSpecials.test(senha)
-                ? 'valid-password-check'
-                : 'invalid-password-check' }
+              className={ PasswordValidation.hasSpecials(senha)
+                ? valid
+                : invalid }
             >
               Possuir algum caractere especial
             </p>
