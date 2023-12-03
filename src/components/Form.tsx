@@ -133,16 +133,6 @@ function Form() {
                 id="url"
               />
             </div>
-            <div>
-              <input
-                type="checkbox"
-                name="hide-passwords"
-                id="hide-passwords"
-                checked={ hidePasswords }
-                onChange={ handleChange }
-              />
-              <label htmlFor="hide-passwords">Esconder senhas</label>
-            </div>
             <button
               type="submit"
               disabled={ isDisabled }
@@ -153,7 +143,19 @@ function Form() {
             <button type="button" onClick={ toogleForm }>Cancelar</button>
           </form>
         ) : (
-          <button onClick={ toogleForm }>Cadastrar nova senha</button>
+          <div>
+            <button onClick={ toogleForm }>Cadastrar nova senha</button>
+            <div>
+              <label htmlFor="hide-passwords">Esconder senhas</label>
+              <input
+                type="checkbox"
+                name="hide-passwords"
+                id="hide-passwords"
+                checked={ hidePasswords }
+                onChange={ handleChange }
+              />
+            </div>
+          </div>
         )
       }
 
@@ -174,7 +176,7 @@ function Form() {
                 {item.login}
               </p>
               {
-                hidePasswords ? <p>*******</p> : <p>{item.senha}</p>
+                hidePasswords ? <p>******</p> : <p>{item.senha}</p>
               }
               <button
                 data-testid="remove-btn"
